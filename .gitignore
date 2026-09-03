@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# Secrets — never commit
+.env
+.env.local
+.env.*.local
+
+# Local artefacts
+.artifacts/
+screenshots/
+*.log
+
+.DS_Store
+.idea/
+.vscode/
