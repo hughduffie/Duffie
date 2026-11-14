@@ -9,6 +9,9 @@ Reworked script for the guide. It replaces the deck "Whitelisting and creator ad
 - **What changed from the old deck:** the subject is now creator marketing as a whole. Whitelisting
   (partnership ads) is one tactic, covered in slides 12 to 15, after finding, briefing and paying creators.
 - Text in [square brackets] is for you to check or fill in before it goes out.
+- **Status:** applied to the Figma deck on 14 November 2026 (20 slides): https://www.figma.com/slides/dwvyNYbwR3JqPYT7k5WdMk. The deck is now the
+  source of truth, and its slide order differs slightly from this outline where a layout suited the content
+  better. The previous slides are kept in the same file, skipped, in a second row.
 
 ---
 

@@ -11,6 +11,9 @@ Reworked script for the guide. It replaces two decks: "Message, hook, angle, for
   the "how". GEM and Andromeda are no longer a guide of their own. They are the "why this matters now"
   section, slides 5 to 8, because they are algorithm updates and will be superseded.
 - Text in [square brackets] is for you to check or fill in before it goes out.
+- **Status:** applied to the Figma deck on 14 November 2026 (24 slides): https://www.figma.com/slides/cRpJphcK0Ci1jc9WwXyFhn. The deck is now the
+  source of truth, and its slide order differs slightly from this outline where a layout suited the content
+  better. The previous slides are kept in the same file, skipped, in a second row.
 
 ---
 

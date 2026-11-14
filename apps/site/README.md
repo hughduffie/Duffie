@@ -30,7 +30,7 @@ pnpm run deploy       # build and publish (after `npx wrangler login`)
 | Colours, type scale, buttons, form styles | `src/styles/global.css` |
 | Nav and footer | `src/components/Nav.astro`, `src/components/Footer.astro` |
 | Redirects from old URLs | `public/_redirects` |
-| The guides themselves (slide by slide) | `guides/*.md`, then the Figma Slides decks |
+| The guides themselves | The Figma Slides decks. Outlines are in `guides/*.md` |
 
 ### Add a guide
 

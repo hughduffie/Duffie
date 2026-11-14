@@ -28,7 +28,7 @@ export const site = {
    * and Audience > Lists and segments > the list > Settings (List ID).
    */
   klaviyo: {
-    companyId: '',
+    companyId: 'VeKT6B',
     lists: {
       resourceDownloads: '', // list "Resource downloads"
       monthlyNotes: '', // list "Monthly notes" (set this list to double opt-in in Klaviyo)

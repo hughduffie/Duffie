@@ -41,7 +41,7 @@ if (value('price') !== undefined && /sprint:\s*\{\s*price:\s*null/.test(siteTs))
 } else done.push('Sprint price is set.');
 
 const placeholders = (testimonials.match(/placeholder:\s*true\s*\}/g) ?? []).length;
-const real = (testimonials.match(/^\s*\{ quote:/gm) ?? []).length - placeholders;
+const real = (testimonials.match(/^\s*quote:\s*$|^\s*\{ quote:/gm) ?? []).length - placeholders;
 if (real === 0) decisions.push(`No real testimonials yet. The home page shows the brand logos only (${placeholders} placeholders are hidden). Edit src/data/testimonials.ts.`);
 else done.push(`${real} testimonial(s) will show on the home page.`);
 

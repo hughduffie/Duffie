@@ -59,7 +59,7 @@ const quotes = testimonials.filter((t) => import.meta.env.DEV || !t.placeholder)
               <p class="eyebrow">Client feedback</p>
               <h2 class="h2">What clients say</h2>
             </div>
-            <ul class="quotes">
+            <ul class:list={['quotes', quotes.length === 1 && 'quotes--single']}>
               {quotes.map((t) => (
                 <li>
                   <TestimonialCard testimonial={t} />
@@ -158,6 +158,10 @@ const quotes = testimonials.filter((t) => import.meta.env.DEV || !t.placeholder)
   @media (min-width: 1024px) {
     .quotes {
       grid-template-columns: repeat(3, 1fr);
+    }
+    /* One testimonial: give it room rather than a third of the row. */
+    .quotes--single {
+      grid-template-columns: minmax(0, 880px);
     }
   }
 

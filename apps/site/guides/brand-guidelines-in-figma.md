@@ -10,6 +10,9 @@ Reworked script for the guide. It replaces two decks: "Use Claude Code to bring 
   Claude Code is the method, introduced on slide 7, not the headline. The "why it is worth your time" case is
   cut down to one slide.
 - Text in [square brackets] is for you to check or fill in before it goes out.
+- **Status:** applied to the Figma deck on 14 November 2026 (19 slides): https://www.figma.com/slides/5OWSRDDhDqmdbyGL5QvMbW. The deck is now the
+  source of truth, and its slide order differs slightly from this outline where a layout suited the content
+  better. The previous slides are kept in the same file, skipped, in a second row.
 
 ---
 
