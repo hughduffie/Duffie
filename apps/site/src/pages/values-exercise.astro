@@ -1,0 +1,57 @@
+---
+import '@/styles/values.css';
+import Base from '@/layouts/Base.astro';
+import Nav from '@/components/Nav.astro';
+import funnel from '@/assets/illustrations/funnel.svg?raw';
+---
+
+<Base
+  title="Find your core values"
+  description="A free 20 minute exercise. Pick ten values, cut them to five, then to one, and get a short report on how you lead and build. Your answers stay in your browser."
+>
+  <Nav slot="nav" />
+
+  <div class="container values-app">
+    <section class="values-hero" id="top">
+      <div class="values-hero__copy">
+        <p class="eyebrow">Free exercise</p>
+        <h1 class="display">Find your core values</h1>
+        <p class="body-m">
+          Pick the ten values that matter most to you. Cut them down to five, then to one. You get a short report on
+          what your answers say about how you lead and build.
+        </p>
+        <div class="actions">
+          <button class="btn primary" type="button" data-a="start">Start the exercise</button>
+          <button class="btn ghost" type="button" data-a="example">See an example report</button>
+        </div>
+        <ul class="facts">
+          <li>About 20 minutes</li>
+          <li>Your answers stay in your browser</li>
+          <li>Free</li>
+        </ul>
+      </div>
+      <div class="values-hero__art" id="hero-art" aria-hidden="true">
+        <Fragment set:html={funnel} />
+      </div>
+    </section>
+
+    <div id="stage-wrap">
+      <div class="progress" id="progress" aria-label="Progress"></div>
+      <section class="stage" id="stage" aria-live="polite"></section>
+    </div>
+
+    <section class="report" id="report" hidden></section>
+
+    <noscript>
+      <p>This exercise needs JavaScript. Turn it on in your browser and reload the page.</p>
+    </noscript>
+
+    <p class="values-credit">
+      This is not my own work. The exercise was shared with me by <span id="credit-name">Mike De Giorgio</span> of Greenhouse
+      Sports, and I share it because I found it useful.
+    </p>
+  </div>
+
+  <script is:inline src="/values/dotmatrix.js"></script>
+  <script is:inline src="/values/app.js"></script>
+</Base>

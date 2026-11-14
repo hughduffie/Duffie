@@ -1,0 +1,68 @@
+---
+import { type Resource, coverColour, resourceHref, resourceCta, resourceMeta } from '@/data/resources';
+
+interface Props {
+  resource: Resource;
+}
+const { resource } = Astro.props;
+const svgs = import.meta.glob<string>('@/assets/illustrations/*.svg', { query: '?raw', import: 'default', eager: true });
+const svg = Object.entries(svgs).find(([path]) => path.endsWith(`/${resource.illustration}.svg`))?.[1] ?? '';
+---
+
+<a class="card leaf" href={resourceHref(resource)} data-category={resource.category}>
+  <div class="card__cover" style={`background:${coverColour[resource.illustration]}`} aria-hidden="true">
+    <Fragment set:html={svg} />
+  </div>
+  <div class="card__body">
+    <p class="label-s muted">{resourceMeta(resource)}</p>
+    <h3 class="h4">{resource.title}</h3>
+    <p class="card__cta">{resourceCta(resource)} <span aria-hidden="true">→</span></p>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--white);
+    border: 1.5px solid var(--paper-500);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--ink-900);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .card__cover {
+    display: grid;
+    place-items: center;
+    padding: 24px 0;
+  }
+  .card__cover :global(svg) {
+    width: 224px;
+    height: 224px;
+  }
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    padding: 20px 24px 24px;
+  }
+  .card__cta {
+    margin-top: auto;
+    padding-top: 16px;
+    font: 700 18px/28px var(--sans);
+    letter-spacing: 0.01em;
+  }
+  .card:hover,
+  .card:focus-visible {
+    border-color: var(--ink-900);
+    box-shadow: inset 0 0 0 0.5px var(--ink-900), 0 12px 24px rgba(10, 10, 13, 0.16);
+  }
+  .card:hover .card__cta,
+  .card:focus-visible .card__cta {
+    color: var(--blue-500);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

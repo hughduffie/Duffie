@@ -1,0 +1,7 @@
+# Old site pages
+/index.html / 301
+/work.html /about 301
+/e-comm.html /advisory 301
+# Old guide names
+/guides /resources 301
+/health-check /resources 301

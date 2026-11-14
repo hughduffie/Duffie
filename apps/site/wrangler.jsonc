@@ -1,0 +1,18 @@
+{
+  // Cloudflare Worker that serves hughduffie.com.
+  // Deploy with `pnpm run deploy` from apps/site, or connect the repo in the Cloudflare dashboard (see LAUNCH.md).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hughduffie-com",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  "observability": { "enabled": true }
+
+  // Uncomment at launch, once the hughduffie.com zone is active on Cloudflare (LAUNCH.md, step 5).
+  // "routes": [{ "pattern": "hughduffie.com", "custom_domain": true }]
+}

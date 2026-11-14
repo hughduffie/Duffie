@@ -1,0 +1,149 @@
+---
+import Base from '@/layouts/Base.astro';
+import Nav from '@/components/Nav.astro';
+import ResourceGrid from '@/components/ResourceGrid.astro';
+import NewsletterForm from '@/components/NewsletterForm.astro';
+import { resources, categories } from '@/data/resources';
+
+const used = categories.filter((c) => resources.some((r) => r.category === c));
+---
+
+<Base
+  title="Free guides and exercises"
+  description="Free, practical guides for founders of consumer brands: brand guidelines in Figma, creative strategy, creator marketing and a values exercise."
+>
+  <Nav slot="nav" current="resources" />
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Resources</p>
+      <h1 class="display">Free guides and exercises.</h1>
+      <p class="body-l muted lede">
+        Short, practical and free. Each one covers a job founders of consumer brands ask me about. Enter your email
+        to get a guide, and I will send a few follow-up notes to check it was useful.
+      </p>
+      <div class="filters" role="group" aria-label="Filter resources">
+        <button class="chip" type="button" aria-pressed="true" data-filter="all">All</button>
+        {
+          used.map((c) => (
+            <button class="chip" type="button" aria-pressed="false" data-filter={c}>
+              {c}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="library">
+    <div class="container">
+      <ResourceGrid resources={resources} comingNext />
+    </div>
+  </section>
+
+  <section class="notes-band bg-blue">
+    <div class="container notes-band__inner">
+      <div class="notes-band__copy">
+        <h2 class="h2">Monthly notes</h2>
+        <p class="body-m">One email a month on what I am seeing in consumer brands.</p>
+      </div>
+      <div class="notes-band__form">
+        <NewsletterForm variant="band" id="band-notes-email" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip[data-filter]')];
+  const items = [...document.querySelectorAll<HTMLElement>('[data-resource-grid] > li')];
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const filter = chip.dataset.filter!;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      items.forEach((li) => {
+        li.hidden = filter !== 'all' && li.dataset.category !== filter;
+      });
+    }),
+  );
+</script>
+
+<style>
+  .page-hero {
+    padding: 48px 0;
+  }
+  .page-hero .container {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .lede {
+    max-width: 900px;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 22px;
+    background: var(--white);
+    border: 1.5px solid var(--paper-500);
+    border-radius: 999px;
+    font: var(--body-s);
+    cursor: pointer;
+  }
+  .chip:hover {
+    background: var(--blue-200);
+    border-color: var(--blue-500);
+  }
+  .chip[aria-pressed='true'] {
+    background: var(--blue-500);
+    border-color: var(--blue-500);
+    color: var(--white);
+  }
+  .chip[aria-pressed='true']::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--lime-400);
+  }
+  .library {
+    padding: 0 0 var(--section-y);
+  }
+  .notes-band {
+    padding-block: var(--section-y);
+  }
+  .notes-band__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .notes-band__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  @media (min-width: 1024px) {
+    .library {
+      padding: 48px 0 120px;
+    }
+    .notes-band {
+      padding-block: 80px;
+    }
+    .notes-band__inner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+    }
+    .notes-band__form {
+      width: 449px;
+      flex: none;
+    }
+  }
+</style>

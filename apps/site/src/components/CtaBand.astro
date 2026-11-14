@@ -1,0 +1,56 @@
+---
+interface Props {
+  title: string;
+  text?: string;
+  cta: string;
+  href: string;
+  /** `lime` is the closing band on About and Advisory. `white` is the quieter band on Home. */
+  tone?: 'lime' | 'white';
+}
+const { title, text, cta, href, tone = 'lime' } = Astro.props;
+---
+
+<section class:list={['band', `band--${tone}`]}>
+  <div class="container band__inner">
+    <div class="band__copy">
+      <h2 class="h2">{title}</h2>
+      {text && <p class="body-m">{text}</p>}
+    </div>
+    <a class="btn btn--block-mobile" href={href}>{cta}</a>
+  </div>
+</section>
+
+<style>
+  .band {
+    padding-block: var(--section-y);
+  }
+  .band--lime {
+    background: var(--lime-400);
+  }
+  .band--white {
+    background: var(--white);
+  }
+  .band__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+  .band__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 760px;
+  }
+  @media (min-width: 1024px) {
+    .band {
+      padding-block: 80px;
+    }
+    .band__inner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+    }
+  }
+</style>

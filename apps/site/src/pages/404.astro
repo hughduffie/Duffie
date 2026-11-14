@@ -1,0 +1,36 @@
+---
+import Base from '@/layouts/Base.astro';
+import Nav from '@/components/Nav.astro';
+---
+
+<Base title="Page not found" noindex>
+  <Nav slot="nav" />
+  <section class="missing">
+    <div class="container">
+      <p class="figure" aria-hidden="true">404</p>
+      <h1 class="display">This page is not here.</h1>
+      <p class="body-m muted">It may have moved when the site was rebuilt. These are the most likely places.</p>
+      <div class="missing__links">
+        <a class="btn" href="/">Home</a>
+        <a class="btn btn--secondary" href="/resources">Free guides</a>
+        <a class="btn btn--secondary" href="/advisory">Advisory</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .missing {
+    padding: 48px 0 var(--section-y);
+  }
+  .missing .container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .missing__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+</style>

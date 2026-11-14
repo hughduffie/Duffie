@@ -1,0 +1,222 @@
+---
+import { nav, type NavKey } from '@/data/site';
+
+interface Props {
+  /** Paper for plain pages. Vivid sits over the vivid texture: disc roundel, white links, lime button. */
+  theme?: 'paper' | 'vivid';
+  current?: NavKey;
+}
+const { theme = 'paper', current = 'none' } = Astro.props;
+const roundel = theme === 'vivid' ? '/brand/roundel-disc.svg' : '/brand/roundel-plain.svg';
+---
+
+<header class:list={['nav', `nav--${theme}`]}>
+  <div class="container nav__inner">
+    <a href="/" class="nav__logo" aria-label="HD Growth Advisory, home">
+      <img src={roundel} alt="" width="144" height="144" />
+    </a>
+    <nav class="nav__bar" aria-label="Main">
+      {
+        nav.map((item) => (
+          <a href={item.href} class="nav__link" aria-current={item.key === current ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/contact" class:list={['btn', theme === 'vivid' && 'btn--lime']}>Get in touch</a>
+    </nav>
+    <button class="nav__menu" type="button" aria-haspopup="dialog" aria-controls="site-menu" data-menu-open>Menu</button>
+  </div>
+</header>
+
+<dialog class="menu" id="site-menu" aria-label="Menu">
+  <div class="menu__head">
+    <a href="/" aria-label="HD Growth Advisory, home">
+      <img src="/brand/roundel-plain.svg" alt="" width="80" height="80" />
+    </a>
+    <button class="menu__close" type="button" data-menu-close>Close <span aria-hidden="true">×</span></button>
+  </div>
+  <nav class="menu__links" aria-label="Menu">
+    {
+      nav.map((item) => (
+        <a href={item.href} aria-current={item.key === current ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+    <a href="/contact" class="btn btn--block">Get in touch</a>
+  </nav>
+</dialog>
+
+<script>
+  const menu = document.getElementById('site-menu') as HTMLDialogElement | null;
+  const opener = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  opener?.addEventListener('click', () => menu?.showModal());
+  menu?.querySelector('[data-menu-close]')?.addEventListener('click', () => menu.close());
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => e.matches && menu?.close());
+</script>
+
+<style>
+  .nav {
+    position: relative;
+    z-index: 5;
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--margin);
+    padding-bottom: var(--nav-pad-b);
+  }
+  .nav__logo img {
+    width: var(--nav-roundel);
+    height: var(--nav-roundel);
+  }
+  .nav--vivid .nav__logo img {
+    width: calc(var(--nav-roundel) * 1.125);
+    height: calc(var(--nav-roundel) * 1.125);
+  }
+  .nav__bar {
+    display: none;
+  }
+  .nav__menu,
+  .menu__close {
+    padding: 10px 20px;
+    font: 700 14px/18px var(--sans);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--ink-900);
+    background: rgba(255, 255, 255, 0.8);
+    border: 1.5px solid rgba(10, 10, 12, 0.14);
+    border-radius: 0 14px 0 0;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+  .nav--vivid .nav__menu {
+    color: var(--white);
+    background: rgba(10, 10, 12, 0.58);
+    border-color: rgba(255, 255, 255, 0.34);
+  }
+
+  @media (min-width: 1024px) {
+    .nav__menu {
+      display: none;
+    }
+    .nav__bar {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      padding: 20px 20px 20px 44px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1.5px solid rgba(10, 10, 12, 0.14);
+      border-radius: 0 48px 0 0;
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+    }
+    .nav--vivid .nav__bar {
+      background: rgba(10, 10, 12, 0.58);
+      border-color: rgba(255, 255, 255, 0.34);
+    }
+    .nav__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      font: var(--label-m);
+      letter-spacing: var(--label-m-ls);
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink-900);
+    }
+    .nav--vivid .nav__link {
+      color: var(--white);
+    }
+    .nav__link:hover {
+      color: var(--blue-500);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .nav__link:active {
+      color: var(--blue-800);
+    }
+    .nav--vivid .nav__link:hover,
+    .nav--vivid .nav__link:active {
+      color: var(--lime-400);
+    }
+    .nav__link[aria-current='page']::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue-500);
+    }
+    .nav--vivid .nav__link[aria-current='page']::before {
+      background: var(--lime-400);
+    }
+    @media (max-width: 1180px) {
+      .nav__bar {
+        gap: 24px;
+        padding-left: 28px;
+      }
+    }
+  }
+
+  /* Menu sheet: mobile and tablet */
+  .menu {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--paper-100);
+    color: var(--ink-900);
+  }
+  .menu::backdrop {
+    background: var(--paper-100);
+  }
+  .menu__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--margin) var(--margin) 16px;
+  }
+  .menu__head img {
+    width: var(--nav-roundel);
+    height: var(--nav-roundel);
+  }
+  .menu__close {
+    background: none;
+    border: 2px solid var(--ink-900);
+    border-radius: 0;
+  }
+  .menu__links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 32px var(--margin);
+  }
+  .menu__links a:not(.btn) {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    font: 500 44px/52px var(--serif);
+    text-decoration: none;
+  }
+  .menu__links a[aria-current='page'] {
+    color: var(--blue-500);
+  }
+  .menu__links a[aria-current='page']::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--blue-500);
+  }
+  .menu__links .btn {
+    margin-top: 12px;
+  }
+</style>

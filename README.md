@@ -28,6 +28,7 @@ The architecture keeps a multi-tenant SaaS possible later without building any o
 ## Layout
 
 ```
+apps/site           hughduffie.com: Astro site on Cloudflare (separate from CRM Canvas, see apps/site/README.md)
 apps/web            Next.js app: operator UI and API routes
 apps/worker         Renderer worker (Playwright/Chromium) — Phase 4
 apps/figma-plugin   Figma plugin — Phase 10
