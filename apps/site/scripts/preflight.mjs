@@ -27,13 +27,7 @@ const check = (ok, list, pass, fail) => (ok ? done.push(pass) : list.push(fail))
 
 // Forms
 check(value('companyId'), blockers, 'Klaviyo company ID is set.', 'Klaviyo company ID is empty (src/data/site.ts, klaviyo.companyId). Every form will fail until it is set.');
-for (const [key, name] of [
-  ['resourceDownloads', 'Resource downloads'],
-  ['monthlyNotes', 'Monthly notes'],
-  ['valuesExercise', 'Values exercise'],
-]) {
-  check(value(key), blockers, `Klaviyo list "${name}" is set.`, `Klaviyo list ID for "${name}" is empty (klaviyo.lists.${key}). Sign-ups to it will be dropped.`);
-}
+check(value('listId'), blockers, 'Klaviyo master list ID is set.', 'Klaviyo master list ID is empty (src/data/site.ts, klaviyo.listId). Sign-ups will be dropped until it is set.');
 
 // Content decisions
 if (value('price') !== undefined && /sprint:\s*\{\s*price:\s*null/.test(siteTs)) {

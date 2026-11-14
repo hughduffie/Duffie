@@ -25,15 +25,15 @@ export const site = {
   /**
    * Klaviyo. These are public identifiers, not secrets, so they are safe to commit.
    * Find them in Klaviyo: Settings > Account > API keys (Public API key / Site ID),
-   * and Audience > Lists and segments > the list > Settings (List ID).
+   * and Audience > Lists and segments > your master list > Settings (List ID).
    */
   klaviyo: {
     companyId: 'VeKT6B',
-    lists: {
-      resourceDownloads: '', // list "Resource downloads"
-      monthlyNotes: '', // list "Monthly notes" (set this list to double opt-in in Klaviyo)
-      valuesExercise: '', // list "Values exercise"
-    },
+    /**
+     * One master list. Everyone who gives marketing consent joins it, and segments do the rest.
+     * Segments are built in Klaviyo from the events below (see LAUNCH.md, step 2).
+     */
+    listId: '',
     /** Metric names the site sends. Build the flows on these in Klaviyo. */
     metrics: {
       resourceRequested: 'Requested resource',

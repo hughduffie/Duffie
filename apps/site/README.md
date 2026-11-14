@@ -47,9 +47,11 @@ Replace a placeholder in `src/data/testimonials.ts` and remove its `placeholder:
 - Every page is static HTML. Two small endpoints run on Cloudflare: `/api/subscribe` (guides, Monthly notes,
   values report) and `/api/loom` (Get in touch). They pass the form to Klaviyo from the server, so ad
   blockers do not drop sign-ups.
-- There are no secrets. Klaviyo's public company ID and list IDs are the only credentials, and they live in
+- There are no secrets. Klaviyo's public company ID and one list ID are the only credentials, and they live in
   `src/data/site.ts`.
-- Until those IDs are set, the published site answers form posts with an error. `pnpm dev` simulates success.
+- Marketing sign-ups all join one master list. Segments are built in Klaviyo on the events the site sends.
+- Until the list ID is set, the published site answers form posts with an error. `pnpm dev` always simulates success and sends nothing, unless
+  you put `KLAVIYO_LIVE=1` in `apps/site/.env` to test against Klaviyo for real.
 - The values exercise keeps answers in the browser (`localStorage`, key `hd-values-v1`). Nothing is sent
   unless the visitor asks for the report by email. Its logic is the published "Core Values Exercise"
   artifact, in `public/values/`, restyled by `src/styles/values.css`.

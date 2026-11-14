@@ -13,17 +13,30 @@ pnpm install
 pnpm preflight
 ```
 
-It lists what must be fixed (the Klaviyo IDs) and what is still to confirm (Sprint price, testimonials,
+It lists what must be fixed (the Klaviyo list ID) and what is still to confirm (Sprint price, testimonials,
 reply time and so on). Everything it mentions is edited in `src/data/site.ts` or `src/data/testimonials.ts`.
 
 ## 2. Set up Klaviyo
 
-Use your own HD Growth Advisory account, not a client account.
+Use your own HD Growth Advisory account, not a client account. No private API key is needed anywhere.
 
-1. Create three lists: **Resource downloads**, **Monthly notes** (set to double opt-in) and **Values exercise**.
-2. Copy each list ID (list > Settings) and your Public API key (Settings > Account > API keys) into
-   `src/data/site.ts` under `klaviyo`. These are public identifiers, so committing them is fine.
-3. Build the flows. The site sends these events:
+1. Create **one master list** (for example "HD Growth Advisory"). Copy its List ID (list > Settings) into
+   `src/data/site.ts` as `klaviyo.listId`. The Public API key is already set.
+2. Choose single or double opt-in on that list. It applies to every sign-up. Guides are sent by a flow on an
+   event (below), so they arrive either way.
+3. Build segments on the events the site sends:
+
+   | Segment | Definition |
+   |---|---|
+   | Guide requesters | Has `Requested resource` at least once |
+   | One guide | Has `Requested resource` at least once where `resource` equals the slug |
+   | Values exercise | Has `Requested values report` at least once |
+   | Loom leads | Has `Submitted Loom intake` at least once |
+   | Monthly notes | Is in the master list (everyone who has given marketing consent) |
+
+   Profiles also carry `signup_source` (`monthly-notes`, `guide:<slug>` or `values-exercise`), `last_resource`
+   and `role`, if you want to segment on those.
+4. Build the flows on the same events:
 
    | Event | Sent when | Use it to |
    |---|---|---|
@@ -32,8 +45,9 @@ Use your own HD Growth Advisory account, not a client account.
    | `Submitted Loom intake` | The Get in touch form is sent. | Send the confirmation (email 6) to the sender, and a notification to you with `brand`, `loom_link` and `revenue`. |
 
    The slugs are `brand-guidelines-in-figma`, `creative-strategy-for-founders` and `creator-marketing`.
-4. Loom senders are not added to a marketing list. Guide requests join Resource downloads. Values report
-   requests join Values exercise, and Monthly notes too if they tick the box.
+5. Who joins the master list: guide requesters (they tick a consent box), Monthly notes sign-ups, and values
+   report requesters who tick the Monthly notes box. Loom senders and values report requesters who leave the
+   box unticked are not subscribed. They only receive the email they asked for.
 
 ## 3. Put the site on Cloudflare (no effect on the live site)
 

@@ -7,7 +7,9 @@ import { site } from '@/data/site';
 
 const BASE = 'https://a.klaviyo.com/client';
 
-export const klaviyoReady = () => Boolean(site.klaviyo.companyId);
+/** Events only need the company ID. Sign-ups also need the master list. */
+export const klaviyoReady = (needsList = false) =>
+  Boolean(site.klaviyo.companyId) && (!needsList || Boolean(site.klaviyo.listId));
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 export const LOOM_RE = /^(https?:\/\/)?(www\.)?loom\.com\/share\/[\w-]+/i;
@@ -45,7 +47,6 @@ function profile(email: string, firstName?: string, properties: Props = {}, subs
 
 /** Add someone to a list with email marketing consent. */
 export function subscribe(opts: { email: string; firstName?: string; listId: string; source: string; properties?: Props }) {
-  if (!opts.listId) return Promise.resolve();
   return post('subscriptions', {
     data: {
       type: 'subscription',
@@ -88,7 +89,7 @@ export function clean(value: unknown, max = 300): string {
  * Shared guard for the form endpoints. Returns a Response to send straight back,
  * or the parsed body when the request should go on to Klaviyo.
  */
-export async function readForm(request: Request): Promise<Response | Record<string, unknown>> {
+export async function readForm(request: Request, needsList = false): Promise<Response | Record<string, unknown>> {
   let body: Record<string, unknown>;
   try {
     body = (await request.json()) as Record<string, unknown>;
@@ -98,10 +99,8 @@ export async function readForm(request: Request): Promise<Response | Record<stri
   // Honeypot: real people never fill this in. Pretend it worked.
   if (clean(body.company)) return json({ ok: true });
   if (!EMAIL_RE.test(clean(body.email))) return json({ ok: false, error: 'email', fields: ['email'] }, 422);
-  if (!klaviyoReady()) {
-    // Local development without Klaviyo IDs: act as if it sent, so every state can be checked.
-    if (import.meta.env.DEV) return json({ ok: true, simulated: true });
-    return json({ ok: false, error: 'not_configured' }, 503);
-  }
+  // `pnpm dev` never sends to Klaviyo unless KLAVIYO_LIVE=1 is in .env, so testing does not create profiles.
+  if (import.meta.env.DEV && import.meta.env.KLAVIYO_LIVE !== '1') return json({ ok: true, simulated: true });
+  if (!klaviyoReady(needsList)) return json({ ok: false, error: 'not_configured' }, 503);
   return body;
 }
