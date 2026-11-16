@@ -839,6 +839,14 @@
   font: 400 15px/22px var(--sans);
 }
 
+.values-credit a {
+  color: var(--blue-500);
+  text-underline-offset: 3px;
+}
+.values-credit a:hover {
+  color: var(--blue-800);
+}
+
 @media print {
   body {
     background: #fff;

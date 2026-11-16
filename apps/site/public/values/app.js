@@ -225,7 +225,7 @@
   }
   function postText() {
     return ['I did a values exercise this week. Ten values, cut down to one.', '', 'My top five:'].concat(S.ranked.map(function (v, i) { return (i + 1) + '. ' + v; }))
-      .concat(['', 'The one I kept when everything else went: ' + S.ranked[0] + '.', '', 'It is a free exercise from Hugh Duffie, who had it from Mike De Giorgio of Greenhouse Sports. Takes about 20 minutes: ' + CONFIG.site]).join('\n');
+      .concat(['', 'The one I kept when everything else went: ' + S.ranked[0] + '.', '', 'It is a free exercise from Hugh Duffie, who had it from Mike De Giorgio. Takes about 20 minutes: ' + CONFIG.site]).join('\n');
   }
 
   function guidesHtml() {
