@@ -1,0 +1,24 @@
+{
+  "name": "@hd/site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "hughduffie.com: HD Growth Advisory website (Astro on Cloudflare)",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro build && astro preview",
+    "typecheck": "astro sync && tsc --noEmit",
+    "preflight": "node scripts/preflight.mjs",
+    "deploy": "astro build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.4.8",
+    "@astrojs/sitemap": "^3.7.5",
+    "astro": "^7.4.12"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "wrangler": "^4.162.0"
+  }
+}

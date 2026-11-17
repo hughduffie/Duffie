@@ -1,0 +1,45 @@
+---
+import type { Testimonial } from '@/data/testimonials';
+interface Props {
+  testimonial: Testimonial;
+}
+const { testimonial: t } = Astro.props;
+---
+
+<figure class="quote leaf">
+  <div class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  <blockquote>{t.quote}</blockquote>
+  <figcaption>
+    <span class="quote__name">{t.name}</span>
+    <span class="quote__role">{t.role}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .quote {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 100%;
+    padding: 32px;
+    background: var(--white);
+    border: 1.5px solid var(--paper-500);
+  }
+  blockquote {
+    flex: 1;
+    font: 500 24px/32px var(--serif);
+  }
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .quote__name {
+    font: 700 14px/18px var(--sans);
+    letter-spacing: 0.08em;
+  }
+  .quote__role {
+    font: 400 18px/28px var(--sans);
+    color: var(--ink-600);
+  }
+</style>

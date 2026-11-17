@@ -1,0 +1,219 @@
+---
+import { Image, Picture } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import Nav from '@/components/Nav.astro';
+import TestimonialCard from '@/components/TestimonialCard.astro';
+import ResourceGrid from '@/components/ResourceGrid.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { brandLogos } from '@/data/site';
+import { guides } from '@/data/resources';
+import { testimonials } from '@/data/testimonials';
+import vivid from '@/assets/textures/vivid-landscape.jpg';
+
+const logoFiles = import.meta.glob<{ default: ImageMetadata }>('@/assets/logos/*.png', { eager: true });
+const logos = brandLogos.map((b) => ({
+  ...b,
+  src: Object.entries(logoFiles).find(([p]) => p.endsWith(`/${b.file}.png`))![1].default,
+}));
+
+// Placeholder testimonials show in `pnpm dev` only. See src/data/testimonials.ts.
+const quotes = testimonials.filter((t) => import.meta.env.DEV || !t.placeholder);
+---
+
+<Base
+  title="Growth advisor and coach for consumer brands"
+  description="Hugh Duffie advises and coaches founders of consumer brands on growth: email, paid, creative and online. Straight advice from someone who still does the job."
+>
+  <Nav slot="nav" theme="vivid" current="home" />
+
+  <section class="hero">
+    <Picture
+      class="hero__bg"
+      src={vivid}
+      formats={['avif', 'webp']}
+      widths={[640, 1024, 1440, 1920]}
+      sizes="100vw"
+      alt=""
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="container">
+      <div class="hero__copy">
+        <p class="label hero__eyebrow">Growth advisor and coach for consumer brands</p>
+        <h1 class="hero-title">An advisor and coach who still does the job.</h1>
+        <p class="body-l">
+          Straight growth advice and coaching for founders of consumer brands. Email, paid, creative and online
+          growth, from someone who has built brands and still works in one every day.
+        </p>
+        <a class="btn btn--lime" href="/contact">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      {
+        quotes.length > 0 && (
+          <>
+            <div class="section-head">
+              <p class="eyebrow">Client feedback</p>
+              <h2 class="h2">What clients say</h2>
+            </div>
+            <ul class:list={['quotes', quotes.length === 1 && 'quotes--single']}>
+              {quotes.map((t) => (
+                <li>
+                  <TestimonialCard testimonial={t} />
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+      <div class:list={['brands', quotes.length > 0 && 'brands--ruled']}>
+        <p class="label-s">Brands I have worked on</p>
+        <ul class="brands__logos">
+          {
+            logos.map((logo) => (
+              <li>
+                <Image src={logo.src} alt={logo.name} height={44} densities={[1, 2, 3]} />
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-paper">
+    <div class="container">
+      <div class="guides-head">
+        <div class="section-head">
+          <p class="eyebrow">Free resources</p>
+          <h2 class="h2">Guides you can use today</h2>
+        </div>
+        <a class="btn btn--secondary guides-head__all" href="/resources">See all resources</a>
+      </div>
+      <ResourceGrid resources={guides.slice(0, 3)} comingNext />
+      <a class="btn btn--secondary btn--block-mobile guides-all-after" href="/resources">See all resources</a>
+    </div>
+  </section>
+
+  <CtaBand tone="white" title="Curious how I can help?" cta="Explore advisory" href="/advisory" />
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    margin-top: calc(-1 * var(--nav-h-vivid));
+    padding: calc(var(--nav-h-vivid) + 48px) 0 48px;
+    color: var(--white);
+    background: var(--blue-500);
+    overflow: hidden;
+  }
+  .hero :global(.hero__bg),
+  .hero :global(picture) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero :global(picture img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero .container {
+    position: relative;
+  }
+  .hero__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    max-width: 760px;
+  }
+  .hero__eyebrow {
+    color: var(--lime-400);
+  }
+  @media (max-width: 599px) {
+    .hero__copy .btn {
+      width: 100%;
+    }
+  }
+  @media (min-width: 600px) {
+    .hero {
+      padding-bottom: 64px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .hero {
+      padding-bottom: 96px;
+    }
+  }
+
+  .quotes {
+    display: grid;
+    gap: var(--gap);
+  }
+  @media (min-width: 1024px) {
+    .quotes {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    /* One testimonial: give it room rather than a third of the row. */
+    .quotes--single {
+      grid-template-columns: minmax(0, 880px);
+    }
+  }
+
+  .brands {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .brands--ruled {
+    padding-top: 48px;
+    border-top: 1px solid var(--paper-500);
+  }
+  .brands__logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px 40px;
+  }
+  .brands__logos :global(img) {
+    height: 36px;
+    width: auto;
+  }
+  @media (max-width: 599px) {
+    .brands__logos {
+      justify-content: flex-start;
+    }
+  }
+  @media (min-width: 1024px) {
+    .brands__logos :global(img) {
+      height: 44px;
+    }
+  }
+
+  .guides-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .guides-head__all {
+    display: none;
+  }
+  .guides-all-after {
+    align-self: flex-start;
+  }
+  @media (min-width: 1024px) {
+    .guides-head__all {
+      display: inline-flex;
+    }
+    .guides-all-after {
+      display: none;
+    }
+  }
+</style>

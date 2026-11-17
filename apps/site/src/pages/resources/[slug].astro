@@ -1,0 +1,184 @@
+---
+import Base from '@/layouts/Base.astro';
+import Nav from '@/components/Nav.astro';
+import ResourceGrid from '@/components/ResourceGrid.astro';
+import { guides, resources, coverColour } from '@/data/resources';
+
+export function getStaticPaths() {
+  return guides.map((guide) => ({ params: { slug: guide.slug }, props: { guide } }));
+}
+
+const { guide } = Astro.props;
+const svgs = import.meta.glob<string>('@/assets/illustrations/*.svg', { query: '?raw', import: 'default', eager: true });
+const svg = Object.entries(svgs).find(([p]) => p.endsWith(`/${guide.illustration}.svg`))?.[1] ?? '';
+const more = resources.filter((r) => r.slug !== guide.slug);
+const id = (name: string) => `gate-${name}`;
+---
+
+<Base title={guide.title} description={guide.summary}>
+  <Nav slot="nav" current="resources" />
+
+  <section class="landing">
+    <div class="container landing__inner">
+      <div class="landing__copy">
+        <p class="eyebrow">{guide.eyebrow}</p>
+        <h1 class="h1">{guide.headline}</h1>
+        <p class="body-m muted">{guide.intro}</p>
+        <h2 class="label">What is inside</h2>
+        <ul class="dot-list">
+          {guide.inside!.map((line) => <li>{line}</li>)}
+        </ul>
+      </div>
+
+      <div class="gate leaf" data-form-wrap>
+        <div class="gate__cover" style={`background:${coverColour[guide.illustration]}`} aria-hidden="true">
+          <Fragment set:html={svg} />
+        </div>
+
+        <form class="gate__body" data-state="form" data-form="resource" data-resource={guide.slug} novalidate>
+          <h2 class="h3">Get the guide, free</h2>
+          <div class="field">
+            <label for={id('name')}>First name</label>
+            <input id={id('name')} name="firstName" type="text" autocomplete="given-name" placeholder="Alex" />
+            <p class="help">I use this in the email I send you.</p>
+          </div>
+          <div class="field">
+            <label for={id('email')}>Email</label>
+            <input
+              id={id('email')}
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="alex@example.com"
+              required
+              data-error="Check the email address and try again."
+            />
+            <p class="help">I only use this to send you the guide and the follow-up notes.</p>
+          </div>
+          <div class="field">
+            <label for={id('role')}>What is your role?</label>
+            <input id={id('role')} name="role" type="text" placeholder="Founder, marketer, agency, other" />
+            <p class="help">Optional. It helps me tailor what I send.</p>
+          </div>
+          <label class="check">
+            <input type="checkbox" name="consent" required />
+            <span>I agree to receive the guide and occasional emails from Hugh. Unsubscribe any time.</span>
+          </label>
+          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <p class="form-alert" role="alert" hidden>Please fix the email address and tick the box to continue.</p>
+          <button class="btn btn--block" type="submit">Send me the guide</button>
+          <p class="muted">No spam. Unsubscribe any time.</p>
+        </form>
+
+        <div class="gate__body" data-state="success" hidden>
+          <div class="sent-dots" aria-hidden="true"><i></i><i></i><i class="lime"></i></div>
+          <h2 class="h3">Check your inbox.</h2>
+          <p class="muted">
+            I have sent the guide to <strong data-fill="email">your email address</strong>. If it is not there in a
+            few minutes, check your promotions or spam folder.
+          </p>
+          <div class="gate__next">
+            <a class="btn btn--secondary" href="/values-exercise">Try the values exercise</a>
+            <a class="btn btn--text" href="/resources">See more guides <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">More guides</p>
+        <h2 class="h2">Keep going</h2>
+      </div>
+      <ResourceGrid resources={more} comingNext={more.length < 4} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .landing {
+    padding: 48px 0 var(--section-y);
+  }
+  .landing__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .landing__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .gate {
+    background: var(--white);
+    border: 2px solid var(--ink-900);
+    overflow: hidden;
+  }
+  .gate__cover {
+    display: grid;
+    place-items: center;
+    padding: 24px 0;
+  }
+  .gate__cover :global(svg) {
+    width: 154px;
+    height: 154px;
+  }
+  .gate__body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 32px 24px;
+  }
+  .gate__next {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .sent-dots {
+    display: flex;
+    gap: 8px;
+  }
+  .sent-dots i {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--ink-900);
+  }
+  .sent-dots i.lime {
+    background: var(--lime-400);
+  }
+  @media (min-width: 600px) {
+    .gate__body {
+      padding: 32px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .landing {
+      padding-bottom: 120px;
+    }
+    .landing__copy .h1 {
+      font-size: clamp(56px, 5.2vw, 88px);
+      line-height: 1.05;
+    }
+  }
+  @media (min-width: 1200px) {
+    .landing__inner {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: clamp(48px, 5vw, 80px);
+    }
+    .landing__copy {
+      flex: 1;
+      min-width: 0;
+    }
+    .gate {
+      flex: none;
+      width: clamp(440px, 39vw, 560px);
+      position: sticky;
+      top: 32px;
+    }
+  }
+</style>

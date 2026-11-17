@@ -1,0 +1,110 @@
+---
+/**
+ * Only rendered when an analytics ID is set in src/data/site.ts.
+ * Analytics loads after "Accept all" and never after "Essential only".
+ * The values exercise keeps progress in localStorage, which is functional and needs no consent.
+ */
+import { site } from '@/data/site';
+const ga4 = site.analytics.ga4;
+---
+
+{
+  ga4 && (
+    <div class="cookies" id="cookie-banner" hidden data-ga4={ga4}>
+      <div class="cookies__copy">
+        <p class="cookies__title">Cookies</p>
+        <p>
+          I use cookies for analytics, to see which pages are useful. Nothing is set unless you accept.{' '}
+          <a href="/cookies">Read more</a>
+        </p>
+      </div>
+      <div class="cookies__actions">
+        <button class="btn btn--secondary" type="button" data-cookies="essential">
+          Essential only
+        </button>
+        <button class="btn" type="button" data-cookies="all">
+          Accept all
+        </button>
+      </div>
+    </div>
+  )
+}
+
+{
+  ga4 && (
+    <script is:inline>
+      (function () {
+        var el = document.getElementById('cookie-banner');
+        if (!el) return;
+        var KEY = 'hd-cookies-v1';
+        function load() {
+          var id = el.dataset.ga4;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { window.dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', id, { anonymize_ip: true });
+        }
+        var choice = null;
+        try { choice = localStorage.getItem(KEY); } catch (e) {}
+        if (choice === 'all') load();
+        else if (!choice) el.hidden = false;
+        el.addEventListener('click', function (e) {
+          var b = e.target.closest('[data-cookies]');
+          if (!b) return;
+          try { localStorage.setItem(KEY, b.dataset.cookies); } catch (er) {}
+          el.hidden = true;
+          if (b.dataset.cookies === 'all') load();
+        });
+      })();
+    </script>
+  )
+}
+
+<style>
+  .cookies {
+    position: fixed;
+    z-index: 50;
+    left: var(--margin);
+    right: var(--margin);
+    bottom: 24px;
+    max-width: 1280px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: var(--white);
+    border: 2px solid var(--ink-900);
+  }
+  .cookies__title {
+    font: 700 22px/30px var(--sans);
+  }
+  .cookies__copy {
+    font: 400 15px/22px var(--sans);
+    color: var(--ink-600);
+  }
+  .cookies__title {
+    color: var(--ink-900);
+  }
+  .cookies__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  @media (min-width: 1024px) {
+    .cookies {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      padding: 24px 32px;
+    }
+    .cookies__copy {
+      max-width: 600px;
+    }
+  }
+</style>

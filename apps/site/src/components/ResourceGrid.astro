@@ -1,0 +1,47 @@
+---
+import ResourceCard from './ResourceCard.astro';
+import ComingNext from './ComingNext.astro';
+import type { Resource } from '@/data/resources';
+
+interface Props {
+  resources: Resource[];
+  /** Adds the "Coming next" card at the end. */
+  comingNext?: boolean;
+}
+const { resources, comingNext = false } = Astro.props;
+---
+
+<ul class="grid" data-resource-grid>
+  {
+    resources.map((r) => (
+      <li data-category={r.category}>
+        <ResourceCard resource={r} />
+      </li>
+    ))
+  }
+  {
+    comingNext && (
+      <li data-category="all">
+        <ComingNext />
+      </li>
+    )
+  }
+</ul>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gap);
+  }
+  @media (min-width: 600px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

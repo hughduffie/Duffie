@@ -1,0 +1,302 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import Nav from '@/components/Nav.astro';
+import CtaBand from '@/components/CtaBand.astro';
+import { brandsWorkedOn } from '@/data/site';
+import aura from '@/assets/textures/about-1.jpg';
+import portrait from '@/assets/textures/about-2.jpg';
+
+const experience = [
+  {
+    title: 'I have founded a brand, raised money and shut it down.',
+    text: 'I spent six years on Sandows. I raised finance, hired a team of six, won accounts from Selfridges to Sainsbury’s, and built the Shopify and Amazon channels. When we decided not to continue, I closed it and told everyone involved. I am grateful it happened. You get advice from someone who has been where you are, including the hard end.',
+  },
+  {
+    title: 'I have run a business.',
+    text: 'As Managing Director of Mother Root, I improved gross margin, cut overheads and made revenue more consistent. I look at growth the way an MD does: what it costs, what it returns and what the team can deliver.',
+  },
+  {
+    title: 'I have launched brands on Shopify.',
+    text: 'I worked with the founders of Days Brewing Co from before launch, and built the site and launch plans for Wednesday’s Domaine and Tarla. I have also given plenty of mid-flight support to brands already trading.',
+  },
+  {
+    title: 'I have advised founders and sat in the boardroom.',
+    text: 'I advised the founders of Blueprint for about 18 months and was a board observer. That covered communication, culture and how finance drives strategy. I am as comfortable in the boardroom arguing for a bold strategy as I am in the platforms sorting out the analysis, the copy or the DNS settings.',
+  },
+];
+
+const reasons = [
+  {
+    on: 1,
+    title: 'The tools move.',
+    text: 'AI, Meta, Klaviyo and Shopify change often enough that advice goes stale. I work in them, so what I tell you reflects what works now.',
+  },
+  {
+    on: 2,
+    title: 'I live with my own advice.',
+    text: 'I know where plans slip, because I have had to deliver them with a real budget and a small team.',
+  },
+  {
+    on: 3,
+    title: 'I see more than one version of the problem.',
+    text: 'Working inside one business and advising others keeps my thinking current.',
+  },
+];
+
+const values = [
+  { title: 'Humility', text: 'Stay curious. Learn from the situation, from others and from mistakes.' },
+  { title: 'Integrity', text: 'Do what is right when nobody is watching.' },
+  { title: 'Tenacity', text: 'Stay focused on the goal and keep going.' },
+  { title: 'Enjoyment', text: 'Work with people who want to be there, with some laughs along the way.' },
+];
+---
+
+<Base
+  title="About Hugh Duffie"
+  description="Hugh Duffie co-founded Sandows, ran Mother Root as MD and is Head of Digital at Sunrise Beverages. He advises and coaches a small number of consumer brand founders alongside that."
+>
+  <Nav slot="nav" current="about" />
+
+  <section class="about-hero">
+    <Picture
+      src={aura}
+      formats={['avif', 'webp']}
+      widths={[640, 1024, 1440, 1920]}
+      sizes="100vw"
+      alt=""
+      loading="eager"
+    />
+    <div class="container about-hero__inner">
+      <div class="about-hero__copy">
+        <p class="eyebrow">About</p>
+        <h1 class="display">Hugh Duffie</h1>
+        <p class="body-m">
+          I started as a barista and co-founded Sandows, which launched in early 2014 and helped start the UK cold
+          brew category.
+        </p>
+        <p class="body-m">
+          I have spent more than ten years building consumer brands: in-house as a founder, growth lead and MD, and
+          as a freelancer and client lead in agencies and consultancies. I’m now Head of Digital at Sunrise
+          Beverages, and I advise and coach a small number of founders alongside that.
+        </p>
+      </div>
+      <Picture
+        class="about-hero__portrait"
+        src={portrait}
+        formats={['avif', 'webp']}
+        widths={[480, 720, 960]}
+        sizes="(min-width: 1024px) 480px, 100vw"
+        alt="Hugh Duffie, smiling, holding a reusable coffee cup"
+        loading="eager"
+      />
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">My experience</p>
+        <h2 class="h2 narrow">What I have done, and what it means for you</h2>
+      </div>
+      <ul class="experience">
+        {
+          experience.map((e) => (
+            <li>
+              <h3 class="h4">{e.title}</h3>
+              <p class="muted">{e.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section bg-paper">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">My approach</p>
+        <h2 class="h2">Why I advise as a current operator</h2>
+      </div>
+      <p>I advise and coach while holding a full-time operating role, deliberately.</p>
+      <ul class="cards cards--3">
+        {
+          reasons.map((r) => (
+            <li class="leaf">
+              <div class="dots" aria-hidden="true">
+                {[1, 2, 3].map((n) => (
+                  <i class={n <= r.on ? 'on' : ''} />
+                ))}
+              </div>
+              <h3 class="h4">{r.title}</h3>
+              <p class="muted">{r.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Advisory</p>
+        <h2 class="h2">How I advise and coach</h2>
+      </div>
+      <p class="how">
+        Most engagements are short. I look at your Klaviyo, Shopify and Meta Ads accounts, give you a straight
+        view, and set out what to do next. Where it helps, I introduce freelancers or agencies. You and your team
+        do the delivery. I can stay on as a coach, sounding board and accountability partner, and continue to add
+        value.
+      </p>
+    </div>
+  </section>
+
+  <section class="section bg-paper">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Clients</p>
+        <h2 class="h2">Brands I’ve worked on</h2>
+      </div>
+      <ul class="brand-names">
+        {brandsWorkedOn.map((b) => <li class="h4">{b}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">How I work</p>
+        <h2 class="h2">What I care about</h2>
+      </div>
+      <ol class="cards cards--4">
+        {
+          values.map((v, i) => (
+            <li class="leaf">
+              <span class="figure" aria-hidden="true">
+                {i + 1}
+              </span>
+              <h3 class="h4">{v.title}</h3>
+              <p class="muted">{v.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Curious how I can help?"
+    text="See how advisory works and how we could work together."
+    cta="Explore advisory"
+    href="/advisory"
+  />
+</Base>
+
+<style>
+  .about-hero {
+    position: relative;
+    margin-top: calc(-1 * var(--nav-h));
+    padding: calc(var(--nav-h) + 48px) 0 var(--section-y);
+    background: var(--lilac-200);
+    overflow: hidden;
+  }
+  .about-hero > :global(picture) {
+    position: absolute;
+    inset: 0;
+  }
+  .about-hero > :global(picture img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .about-hero__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .about-hero__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    max-width: 720px;
+  }
+  .about-hero__inner :global(picture img) {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 0 var(--leaf) 0 0;
+  }
+  .narrow {
+    max-width: 760px;
+  }
+  .experience {
+    display: grid;
+    gap: 48px;
+  }
+  .experience li {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--paper-500);
+  }
+  .cards {
+    display: grid;
+    gap: var(--gap);
+  }
+  .cards li {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 28px;
+    background: var(--white);
+    border: 1.5px solid var(--paper-500);
+  }
+  .how {
+    max-width: 880px;
+  }
+  .brand-names {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 40px;
+  }
+  @media (min-width: 600px) {
+    .cards--4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .about-hero {
+      padding-bottom: 120px;
+    }
+    .about-hero__inner {
+      flex-direction: row;
+      align-items: center;
+      gap: 80px;
+    }
+    .about-hero__copy {
+      flex: 1;
+    }
+    .about-hero__inner :global(picture) {
+      flex: none;
+      width: 480px;
+    }
+    .experience {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .cards--3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .cards--4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .brand-names {
+      gap: 24px 40px;
+    }
+  }
+</style>

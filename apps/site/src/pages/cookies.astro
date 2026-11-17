@@ -1,0 +1,43 @@
+---
+import Legal from '@/layouts/Legal.astro';
+import { site } from '@/data/site';
+const analytics = Boolean(site.analytics.ga4);
+---
+
+<Legal title="Cookies" description="The cookies and browser storage hughduffie.com uses.">
+  <h2>Essential storage</h2>
+  <ul>
+    <li>
+      <strong>Values exercise progress.</strong> Your answers are saved in your browser’s local storage under the
+      name <code>hd-values-v1</code>, so you can close the page and come back. They are not sent anywhere. Use
+      “Start again” in the exercise to clear them.
+    </li>
+    {
+      analytics && (
+        <li>
+          <strong>Your cookie choice.</strong> Saved in local storage as <code>hd-cookies-v1</code>, so the banner
+          does not ask again.
+        </li>
+      )
+    }
+  </ul>
+
+  <h2>Analytics</h2>
+  {
+    analytics ? (
+      <p>
+        If you choose “Accept all”, the site loads Google Analytics to count visits and see which pages are useful.
+        It sets cookies named <code>_ga</code> and <code>_ga_*</code>. If you choose “Essential only”, it is never
+        loaded. Clear this site’s data in your browser to be asked again.
+      </p>
+    ) : (
+      <p>This site does not use analytics or advertising cookies.</p>
+    )
+  }
+
+  <h2>Email</h2>
+  <p>
+    Emails I send through Klaviyo record opens and clicks, so I can see which guides are useful. You can unsubscribe
+    from any email at any time.
+  </p>
+</Legal>
