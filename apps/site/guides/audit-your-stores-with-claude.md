@@ -12,12 +12,12 @@ Script for the guide. Same format as the other outlines: one block per slide, th
 - **Facts checked on 18 November 2026** against Meta, Shopify and Klaviyo developer docs. These platforms change often.
   Re-check the Shopify slides before publishing (see slide 10).
 - Text in [square brackets] is for you to check or fill in before it goes out.
-- **Cover illustration:** use the dot-matrix prompt in `HD-Advisory/brand/illustration-style.md`. Suggested subject:
-  three small storefronts side by side, with an accent magnifying lens over the middle one. [Check it is not too
-  close to a stock "search" metaphor. Alternative: a bar chart of three columns with an accent check badge.]
-- **Status:** outline only. No Figma deck yet, and no entry in `src/data/resources.ts` (add one when the deck exists,
-  plus a branch in the Klaviyo "Requested resource" flow).
-
+- **Cover illustration:** dot-matrix bar chart of five stores, with the shortest bar in the accent colour (Blue deck
+  palette). Built to the prompt in `HD-Advisory/brand/illustration-style.md`.
+- **Status:** built as a Figma Slides deck on 18 November 2026 (26 slides, including a two-slide appendix with the full
+  deck prompt): https://www.figma.com/slides/fGQIwmJUI8WmI3dwrLDSmw. The deck is now the source of truth. Its order
+  differs slightly from this outline where a layout suited the content better. Not yet in `src/data/resources.ts`
+  (add it when the guide is ready to publish, plus a branch in the Klaviyo "Requested resource" flow).
 ---
 
 **1. Cover**
